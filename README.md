@@ -8,6 +8,8 @@ npm install
 
 npm start
 
+http://localhost:3001/😃
+
 ##### Backend 
 git clone -b backend https://github.com/praneethpj/Reactjs-Springboot-Todo.git
 
