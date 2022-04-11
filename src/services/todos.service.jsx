@@ -29,6 +29,11 @@ export function getAll({username,page}){
     return instance.get("/getAllTodos/" + username+"?pageNo="+page);
 }
 
+export function getCountBy({username}){
+  
+    return instance.get("/getCountByUsername/" + username);
+}
+
 export function getTaskById({id}){
     return instance.get("/getTaskById/" + id);
 }
@@ -52,5 +57,5 @@ export function modifyTodo({id,title,content,username}){
 		status:true
     }
 
-    return instance.put("/upudateTodo", data);
+    return instance.put("/updateTodo", data);
 }

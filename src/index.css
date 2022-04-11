@@ -195,3 +195,27 @@ button.remove-task-button:hover{
   margin-top: 5%;
   font-size: small;
 }
+
+.pagination{
+padding: 1%;
+width: 10%;
+margin-left: 50%;
+}
+
+.pagination a{
+  text-decoration: none;
+  margin: 1px;
+  background-color: #05b46b;
+  color: #e4f2f7;
+  height: 30px;
+  width: 30px;
+  border-radius: 5px;
+  text-align: center;
+ 
+  }
+
+  .pagination a :hover{
+   
+    color: #6a7c02;
+    
+    }

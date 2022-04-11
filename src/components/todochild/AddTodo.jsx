@@ -76,6 +76,12 @@ const AddTodo = () => {
 
 
 	const updateTodo = () => {
+
+		if (todotitle.trim().length === 0 || totdocontent.trim().length === 0) {
+			alert("Enter Goal and content task before adding !!");
+			setValue("");
+			return;
+		}else{
 		modifyTodo({ id: itemId, title: todotitle, content: totdocontent, username: user })
 			.then((res) => {
 				console.log(res.data);
@@ -98,7 +104,7 @@ const AddTodo = () => {
 			.catch((err) => {
 				console.error(err.response.data.errors);
 			});
-
+		}
 	};
 
 	const logout = () => {
@@ -109,8 +115,8 @@ const AddTodo = () => {
 	const onSubmit = (event) => {
 		event.preventDefault();
 
-		if (value.trim().length === 0) {
-			alert("Enter a task before adding !!");
+		if (value.trim().length === 0 || content.trim().length === 0) {
+			alert("Enter Goal and content task before adding !!");
 			setValue("");
 			return;
 		}
@@ -206,7 +212,7 @@ const AddTodo = () => {
 							onChange={(event) => setTodoContent(event.target.value)} style={{ border: 0, color: 'black' }} disabled={disabled}>{totdocontent}</textarea></Modal.Body>
 
 						<Modal.Footer>
-							Edit<input type="checkbox" onChange={() => setDisabled(!disabled)} />
+							Edit this <input type="checkbox" onChange={() => setDisabled(!disabled)} />
 
 							<button className='task-button' onClick={updateTodo} disabled={disabled}>Update</button>
 
