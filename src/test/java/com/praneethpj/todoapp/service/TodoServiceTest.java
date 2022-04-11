@@ -2,12 +2,16 @@ package com.praneethpj.todoapp.service;
 
 import com.praneethpj.todoapp.model.TodoModel;
 import com.praneethpj.todoapp.repository.TodoRepository;
+import com.praneethpj.todoapp.repository.TodoRepositoryPaging;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +24,9 @@ class TodoServiceTest {
 
     @Mock
     private TodoRepository todoRepository;
+
+    @Mock
+    private TodoRepositoryPaging todoRepositoryPaging;
 
     @InjectMocks
     TodoService todoService;
@@ -126,12 +133,16 @@ class TodoServiceTest {
         List<TodoModel>  Expected_todoModel= Lists.list( new TodoModel());
         Expected_todoModel.get(0).setTitle("Unit Test Title updated");
         Expected_todoModel.get(0).setContent("Unit Test Content updated");
-        Expected_todoModel.get(0).setUsername("UnitTest updated");
+        Expected_todoModel.get(0).setUsername("UnitTest");
         Expected_todoModel.get(0).setStatus(false);
+
+        Pageable paging = PageRequest.of(1, 10, Sort.by("modified"));
 
         when(todoRepository.findByUsernameOrderByModifiedDesc("UnitTest")).thenReturn(Expected_todoModel);
 
-        List<TodoModel> response_todoModel=todoService.getAllTodos("UnitTest",1,1);
+        when(todoRepositoryPaging.findByUsernameOrderByModifiedDesc("UnitTest",paging)).thenReturn(Expected_todoModel);
+
+        List<TodoModel> response_todoModel=todoService.getAllTodos("UnitTest",1,10);
 
         assertNotNull(response_todoModel);
         assertEquals(response_todoModel,Expected_todoModel);
@@ -157,5 +168,30 @@ class TodoServiceTest {
 
         assertNotNull(response_todoModel);
         assertEquals(response_todoModel,Expected_todoModel);
+    }
+
+    @Test void getPageCount(){
+        TodoModel todoModel=new TodoModel();
+        todoModel.setTitle("Unit Test Title");
+        todoModel.setContent("Unit Test Content");
+        todoModel.setUsername("UnitTest");
+
+
+        List<TodoModel>  Expected_todoModel= Lists.list( new TodoModel());
+        Expected_todoModel.get(0).setTitle("Unit Test Title updated");
+        Expected_todoModel.get(0).setContent("Unit Test Content updated");
+        Expected_todoModel.get(0).setUsername("UnitTest");
+
+        Long Expected_value=1L;
+
+
+        when(todoRepository.findByUsernameOrderByModifiedDesc("UnitTest")).thenReturn(Expected_todoModel);
+
+        when(todoRepository.countByUsername("UnitTest")).thenReturn(1L);
+
+        Long response_todoModel=todoService.getPageCount("UnitTest");
+
+        assertNotNull(response_todoModel);
+        assertEquals(Expected_value,response_todoModel);
     }
 }

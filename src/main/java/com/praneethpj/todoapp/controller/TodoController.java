@@ -24,7 +24,7 @@ public class TodoController {
         return ResponseEntity.ok(todoService.addTodo(todo));
     }
 
-    @PutMapping("/upudateTodo")
+    @PutMapping("/updateTodo")
     private ResponseEntity<TodoModel> updateTodo(@RequestBody TodoModel todo) {
         return ResponseEntity.ok(todoService.updateTodo(todo));
     }
@@ -42,6 +42,15 @@ public class TodoController {
         }
         return ResponseEntity.ok(todoService.getAllTodos(username,pageNo,pageSize));
     }
+
+    @GetMapping("/getCountByUsername/{username}")
+    private ResponseEntity<?> getCountByUsername(@PathVariable String username) {
+        if (username == null) {
+            return (ResponseEntity<?>) ResponseEntity.badRequest().body(HttpStatus.NO_CONTENT);
+        }
+        return ResponseEntity.ok(todoService.getPageCount(username));
+    }
+
 
     @GetMapping("/getTaskById/{id}")
     private ResponseEntity<?> getTaskById(@PathVariable Integer id) {

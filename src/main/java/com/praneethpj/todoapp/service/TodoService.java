@@ -73,6 +73,17 @@ public class TodoService {
 
     }
 
+    public Long getPageCount(String username){
+        if(todoRepository.findByUsernameOrderByModifiedDesc(username).isEmpty()){
+            throw new ApiRequestException("Doesn't exists the tasks for "+username);
+        }
+
+        return todoRepository.countByUsername(username);
+
+    }
+
+
+
     public Optional<TodoModel> getTaskById(int id)  {
         if( !todoRepository.findById(id).isPresent()){
             throw new ApiRequestException("Doesn't exists the tasks for  "+id);
