@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
 
 @RestController
 @RequestMapping("/api")
@@ -20,7 +22,7 @@ public class TodoController {
 
 
     @PostMapping("/addTodo")
-    private ResponseEntity<TodoModel> addTodo(@RequestBody TodoModel todo) {
+    private ResponseEntity<?> addTodo(@RequestBody TodoModel todo) {
         return ResponseEntity.ok(todoService.addTodo(todo));
     }
 
@@ -37,35 +39,33 @@ public class TodoController {
     @GetMapping("/getAllTodos/{username}")
     private ResponseEntity<?> getAllTodos(@PathVariable String username,@RequestParam(defaultValue = "0") Integer pageNo,
                                           @RequestParam(defaultValue = "10") Integer pageSize) {
-        if (username == null) {
-            return (ResponseEntity<?>) ResponseEntity.badRequest().body(HttpStatus.NO_CONTENT);
-        }
+
         return ResponseEntity.ok(todoService.getAllTodos(username,pageNo,pageSize));
     }
 
     @GetMapping("/getCountByUsername/{username}")
     private ResponseEntity<?> getCountByUsername(@PathVariable String username) {
-        if (username == null) {
-            return (ResponseEntity<?>) ResponseEntity.badRequest().body(HttpStatus.NO_CONTENT);
-        }
+
         return ResponseEntity.ok(todoService.getPageCount(username));
     }
 
 
     @GetMapping("/getTaskById/{id}")
     private ResponseEntity<?> getTaskById(@PathVariable Integer id) {
-        if (id.toString().isEmpty()) {
-            return (ResponseEntity<?>) ResponseEntity.badRequest().body(HttpStatus.NO_CONTENT);
-        }
+
         return ResponseEntity.ok(todoService.getTaskById(id));
     }
 
     @PutMapping("/doneTaskById/{id}")
     private ResponseEntity<?> doneTaskById(@PathVariable Integer id) {
-        if (id.toString().isEmpty()) {
-            return (ResponseEntity<?>) ResponseEntity.badRequest().body(HttpStatus.NO_CONTENT);
-        }
+
         return ResponseEntity.ok(todoService.doneTaskTodo(id));
+    }
+
+    @GetMapping("/getTaskByUsernameAndCreated/{username}/{created}")
+    private ResponseEntity<?> getTaskByUsernameAndCreated(@PathVariable String username, @PathVariable Date created) {
+
+        return ResponseEntity.ok(todoService.getTodoByUsernameAndDate(username,created));
     }
 
 }

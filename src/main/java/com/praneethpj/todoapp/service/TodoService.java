@@ -10,11 +10,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TodoService {
+public class TodoService implements TodoServiceInit {
 
     @Autowired
     private TodoRepository todoRepository;
@@ -82,12 +83,19 @@ public class TodoService {
 
     }
 
-
-
     public Optional<TodoModel> getTaskById(int id)  {
         if( !todoRepository.findById(id).isPresent()){
             throw new ApiRequestException("Doesn't exists the tasks for  "+id);
         }
         return todoRepository.findById(id);
+    }
+
+    public List<TodoModel> getTodoByUsernameAndDate(String username, Date created){
+        if(todoRepository.findByUsernameOrderByModifiedDesc(username).isEmpty()){
+            throw new ApiRequestException("Doesn't exists the tasks for "+username);
+        }
+
+        return todoRepository.findByUsernameAndAndCreated(username,created);
+
     }
 }

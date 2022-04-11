@@ -47,6 +47,7 @@ public class TodoModel {
     @Size(max = 10, message = "Password size is too long")
     private String username;
 
+    
     private boolean status;
 
     @CreationTimestamp
