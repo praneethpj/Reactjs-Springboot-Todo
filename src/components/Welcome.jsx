@@ -10,11 +10,11 @@ const Welcome = () => {
   const [username, setUsername] = useState();
 
   let user = localStorage.getItem('usernames');
-  console.log("User :" + user.length);
+  //console.log("User :" + user.length);
   const dispatch = useDispatch();
 
-  if (user === 'undefined' || user === '' || user.trim() === "") {
-
+  if (user===null || user === 'undefined' || user === '' ) {
+//|| user.trim() === ""
     history.push("/😃");
 
   } else {

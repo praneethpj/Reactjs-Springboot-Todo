@@ -44,7 +44,7 @@ const TodoList = () => {
 				//console.log(res.data);
 				getCountBy({ username: user })
 				.then((res) => {
-					 console.log("getCountBy "+res.data);
+					 //console.log("getCountBy "+res.data);
 	
 					//dataitems.push(JSON.stringify(res.data));
 					setPageSize(res.data);

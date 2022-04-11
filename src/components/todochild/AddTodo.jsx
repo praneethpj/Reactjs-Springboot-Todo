@@ -17,6 +17,8 @@ const AddTodo = () => {
 	const user = localStorage.getItem('usernames');
 	console.log("User " + user);
 
+	
+
 	const [value, setValue] = useState('');
 	const [content, setContent] = useState('');
 
@@ -35,6 +37,26 @@ const AddTodo = () => {
 
 	const history = useHistory();
 
+
+	const dispatch = useDispatch();
+
+
+	if (user === 'undefined' || user === '' ) {
+		//|| user.trim() === ""
+			history.push("/😃");
+		
+		  } else {
+			console.log(user);
+			// dispatch(
+			//   refreshTask({
+			// 	id: 0
+			//   })
+			// )
+			history.push("/💡");
+		
+		
+		  }
+
 	const showModal = () => {
 		setIsOpen(true);
 	};
@@ -43,8 +65,6 @@ const AddTodo = () => {
 	const hideModal = () => {
 		setIsOpen(false);
 	};
-
-	const dispatch = useDispatch();
 
 
 	var click = useSelector((state) => {

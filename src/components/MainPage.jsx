@@ -6,7 +6,7 @@ const MainPage = () => {
 
     let user = localStorage.getItem('usernames');
 
-    if (user === 'undefined' || user === '' || user.trim() === "") {
+    if (user===null ||user === 'undefined' || user === '' || user.trim() === "" ) {
 
         history.push("/😃");
 
