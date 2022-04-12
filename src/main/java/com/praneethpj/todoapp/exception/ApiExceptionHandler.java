@@ -32,7 +32,7 @@ public class ApiExceptionHandler {
 
         Map<String,String> response = new HashMap<>();
         response.put("status","400");
-        response.put("Message","Your input is invalid");
+        response.put("Message",e.getMessage());
 
         return response;
     }
