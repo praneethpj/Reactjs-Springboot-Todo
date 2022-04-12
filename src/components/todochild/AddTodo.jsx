@@ -47,11 +47,7 @@ const AddTodo = () => {
 		
 		  } else {
 			console.log(user);
-			// dispatch(
-			//   refreshTask({
-			// 	id: 0
-			//   })
-			// )
+			
 			history.push("/💡");
 		
 		
@@ -99,7 +95,7 @@ const AddTodo = () => {
 
 		if (todotitle.trim().length === 0 || totdocontent.trim().length === 0) {
 			alert("Enter Goal and content task before adding !!");
-			setValue("");
+			//setValue("");
 			return;
 		}else{
 		modifyTodo({ id: itemId, title: todotitle, content: totdocontent, username: user })
@@ -137,7 +133,7 @@ const AddTodo = () => {
 
 		if (value.trim().length === 0 || content.trim().length === 0) {
 			alert("Enter Goal and content task before adding !!");
-			setValue("");
+			 
 			return;
 		}
 
@@ -155,13 +151,19 @@ const AddTodo = () => {
 					})
 				);
 				hideModal();
-
+				dispatch(
+					setDataId({
+						id: 0,
+					})
+				  )
+			
 			})
 			.catch((err) => {
 				console.log(err);
 			});
 
 		setValue("");
+		setContent("");
 
 	};
 	const addNewData = () => {
@@ -224,7 +226,7 @@ const AddTodo = () => {
 					</div> : <div><Modal.Header>
 
 						<Modal.Title><input value={todotitle} className="task-input"
-							onChange={(event) => setTodoTitle(event.target.value)} type="text" style={{ border: 0, color: 'black' }} disabled={disabled} ></input></Modal.Title>
+							onChange={(event) => setTodoTitle(event.target.value)} type="text" style={{ border: 0, color: 'black' }} disabled={disabled} 	maxLength={10}  ></input></Modal.Title>
 
 					</Modal.Header>
 
