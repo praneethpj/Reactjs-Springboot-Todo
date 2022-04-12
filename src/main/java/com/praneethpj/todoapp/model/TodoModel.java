@@ -34,7 +34,7 @@ public class TodoModel {
 
     @NotBlank(message = "Title is mandatory")
     @Size(min = 2, message = "Title size is too short")
-    @Size(max = 10, message = "Title size is too long")
+    @Size(max = 20, message = "Title size is too long")
     private String title;
 
     @NotBlank(message = "Content is mandatory")
