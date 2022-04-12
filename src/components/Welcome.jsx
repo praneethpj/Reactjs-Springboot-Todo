@@ -30,6 +30,15 @@ const Welcome = () => {
   }
 
   const onClick = () => {
+    if (String(username).length === 0 || String(username).length === 0 ) {
+			alert("Enter Your Username");
+			 
+			return;
+		}else if(String(username).length<2){
+      alert("Username length should be more than 2");
+			 
+			return;
+    }
     localStorage.setItem('usernames', username);
     history.push("/💡");
   };
@@ -44,6 +53,7 @@ const Welcome = () => {
           className="task-welcome"
           placeholder="Please Enter Your Username"
           value={username}
+          maxLength={10}
           onChange={(event) => setUsername(event.target.value)}
         ></input>
         <button className="task-button" onClick={() => onClick()}  >
