@@ -1,5 +1,7 @@
 package com.praneethpj.todoapp.service;
 
+import com.praneethpj.todoapp.exception.ApiException;
+import com.praneethpj.todoapp.exception.ApiRequestException;
 import com.praneethpj.todoapp.model.TodoModel;
 import com.praneethpj.todoapp.repository.TodoRepository;
 import com.praneethpj.todoapp.repository.TodoRepositoryPaging;
@@ -61,6 +63,74 @@ class TodoServiceTest {
 
     }
 
+    @Test()
+    void TodoErrorUsername() {
+        TodoModel todoModel=new TodoModel();
+        todoModel.setTitle("Unit Test Title");
+        todoModel.setContent("Unit Test Content");
+        todoModel.setUsername("");
+        todoModel.setStatus(true);
+
+        Exception exception = null;
+
+        when(todoRepository.save(todoModel)).thenThrow(new ApiRequestException());
+        TodoModel response_todoModel;
+        try{
+            response_todoModel=todoService.addTodo(todoModel);
+        }catch (Exception e){
+        exception=e;
+        }
+
+        assertNotNull(exception);
+
+    }
+
+    @Test()
+    void TodoErrorTitle() {
+        TodoModel todoModel=new TodoModel();
+        todoModel.setTitle("");
+        todoModel.setContent("Unit Test Content");
+        todoModel.setUsername("Unit test");
+        todoModel.setStatus(true);
+
+        Exception exception = null;
+
+        when(todoRepository.save(todoModel)).thenThrow(new ApiRequestException());
+        TodoModel response_todoModel;
+        try{
+            response_todoModel=todoService.addTodo(todoModel);
+        }catch (Exception e){
+            exception=e;
+        }
+
+        assertNotNull(exception);
+
+    }
+
+    @Test()
+    void TodoErrorContent() {
+        TodoModel todoModel=new TodoModel();
+        todoModel.setTitle("title");
+        todoModel.setContent("");
+        todoModel.setUsername("Unit test");
+        todoModel.setStatus(true);
+
+        Exception exception = null;
+
+        when(todoRepository.save(todoModel)).thenThrow(new ApiRequestException());
+        TodoModel response_todoModel;
+        try{
+            response_todoModel=todoService.addTodo(todoModel);
+        }catch (Exception e){
+            exception=e;
+        }
+
+        assertNotNull(exception);
+
+    }
+
+
+
     @Test
     void updateTodo() {
         TodoModel todoModel=new TodoModel();
@@ -106,6 +176,54 @@ class TodoServiceTest {
         assertEquals(response_todoModel,Expected_todoModel);
     }
 
+    @Test()
+    void TodoErrorDoneTasktatus() {
+        TodoModel todoModel=new TodoModel();
+        todoModel.setId(1);
+        todoModel.setStatus(false);
+
+        TodoModel Expected_todoModel=new TodoModel();
+        Expected_todoModel.setId(1);
+        Expected_todoModel.setStatus(false);
+
+        when(todoRepository.getById(1)).thenReturn(Expected_todoModel);
+
+        Exception exception = null;
+
+        when(todoRepository.save(todoModel)).thenThrow(new ApiRequestException());
+        TodoModel response_todoModel;
+        try{
+            response_todoModel=todoService.addTodo(todoModel);
+        }catch (Exception e){
+            exception=e;
+        }
+
+        assertNotNull(exception);
+
+    }
+
+    @Test()
+    void TodoErrorDoneTaskS() {
+        TodoModel todoModel=new TodoModel();
+        todoModel.setId(1);
+        todoModel.setStatus(false);
+
+        when(todoRepository.getById(1)).thenReturn(null);
+
+        Exception exception = null;
+
+        when(todoRepository.save(todoModel)).thenThrow(new ApiRequestException());
+        TodoModel response_todoModel;
+        try{
+            response_todoModel=todoService.addTodo(todoModel);
+        }catch (Exception e){
+            exception=e;
+        }
+
+        assertNotNull(exception);
+
+    }
+
     @Test
     void deleteTodo() {
 
@@ -146,6 +264,25 @@ class TodoServiceTest {
 
         assertNotNull(response_todoModel);
         assertEquals(response_todoModel,Expected_todoModel);
+    }
+
+    @Test()
+    void TodoErrorGetAllTodos() {
+        TodoModel todoModel=new TodoModel();
+        todoModel.setId(1);
+        todoModel.setStatus(false);
+
+        when(todoRepository.findByUsernameOrderByModifiedDesc(todoModel.getUsername())).thenThrow(new ApiRequestException());
+        Exception exception = null;
+        TodoModel response_todoModel;
+        try{
+            response_todoModel= (TodoModel) todoService.getAllTodos("UnitTest",1,10);
+        }catch (Exception e){
+            exception=e;
+        }
+
+        assertNotNull(exception);
+
     }
 
     @Test
